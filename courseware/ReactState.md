@@ -26,7 +26,7 @@
 > 父组件通过props向子组件传递数据。<br>
 > 父组件的state状态发生变化，子组件与之对应的props也会发生变化。
 
-代码示例`AtoB.js`：
+代码示例[AtoB.js](../src/components/AtoB.js)：
 
 ```
 // 父组件A
@@ -72,7 +72,7 @@ class B extends React.Component{
 ### 2. 子组件向父组件传递数据
 > React是单向数据流，`子组件`向`父组件`通信，可以由`父组件`提供一个回调函数，供`子组件`调用并回传参数。
 
-代码示例`BtoA.js`：
+代码示例[BtoA.js](../src/components/BtoA.js)：
 
 ```
 // 点击 子组件B 的按钮修改 父组件A state的 name
@@ -135,7 +135,7 @@ class B extends React.Component{
 
 
 ### 1.`上级组件`向`下级组件`通信
-代码示例`AtoD.js`：
+代码示例[AtoD.js](../src/components/AtoD.js)：
 
 ```
 import React from "react";
@@ -212,7 +212,7 @@ D.contextTypes = {
 ```
 
 ### 2.`下级组件`向`上级组件`通信
-代码示例`DtoA.js`：
+代码示例[DtoA.js](../src/components/DtoA.js)：
 
 ```
 import React from "react";
@@ -303,7 +303,7 @@ export default new EventEmitter();
 ```
 > 自定义事件是典型的`发布/订阅`模式，通过向事件对象上添加`事件监听器`和`触发事件`来实现组件间通信。
 
-代码示例`DtoC.js`：
+代码示例[DtoC.js](../src/components/DtoC.js)：
 
 实现点击`D组件中的按钮`，修改`C组件的颜色`的功能
 
@@ -399,4 +399,4 @@ class D extends React.Component{
 
 > 当然，自己实现组件间的通信管理起来还是比较困难，因此出现了很多状态管理工具，如`Flux`、`Redux`等，使用这些工具使得组件间的通信更容易追踪和管理。
 
-> 下一节课咱们学习`React`项目中常用的状态管理工具`Redux`
+> 下一节课咱们学习`React`项目中常用的状态管理工具`Redux`。
