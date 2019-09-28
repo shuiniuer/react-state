@@ -27,33 +27,39 @@
 
 代码示例`AtoB.js`[点击查看源码](../src/components/AtoB.js)：
 
+ 实现：`子组件B`的计数器`count`与`父组件A`的计数器`count`保持一致
+
 ```
 // 父组件A
 // 通过props向子组件B传递了一个number
 // 每过1000ms 父组件A state的number值加1
 // 子组件B props的number会随着父组件A一起变化
+// 父组件A
+// 通过props向子组件B传递了一个count
+// 每过1000ms 父组件A state的count值加1
+// 子组件B props的count会随着父组件A一起变化
 import React from 'react';
 import { setInterval } from 'timers';
 
 export default class A extends React.Component{
     constructor(){
         super();
-        this.state={number:0}
+        this.state={count:0}
     }
 
     componentDidMount(){
-        // 每过 1000ms A组件state的number值加1
+        // 每过 1000ms A组件state的count值加1
         setInterval(()=>{
             this.setState({
-                number: this.state.number+1
+                count: this.state.count+1
             });
         },1000);
     }
 
     render(){
         return (<div>
-            组件A的number值：{this.state.number}
-            <B number={this.state.number}/>
+            组件A的count值：{this.state.count}
+            <B count={this.state.count}/>
         </div>)
     }
 }
@@ -62,7 +68,7 @@ export default class A extends React.Component{
 class B extends React.Component{
     render(){
         return (<div>
-            组件B的number值：{this.props.number}
+            组件B的count值：{this.props.count}
         </div>);
     }
 }
@@ -73,8 +79,9 @@ class B extends React.Component{
 
 代码示例`BtoA.js` [点击查看源码](../src/components/BtoA.js)：
 
+实现：点击`子组件B`的按钮修改`父组件A`的name
+
 ```
-// 点击 子组件B 的按钮修改 父组件A state的 name
 import React from 'react';
 export default class A extends React.Component{
     constructor(){
@@ -135,6 +142,8 @@ class B extends React.Component{
 
 ### 1.`上级组件`向`下级组件`通信
 代码示例`AtoD.js` [点击查看源码](../src/components/AtoD.js)：
+
+实现：点击`上级组件A`的按钮，同时修改`下级组件D`的颜色
 
 ```
 import React from "react";
@@ -212,6 +221,8 @@ D.contextTypes = {
 
 ### 2.`下级组件`向`上级组件`通信
 代码示例`DtoA.js` [点击查看源码](../src/components/DtoA.js)：
+
+实现：点击`下级组件D`的按钮，同时修改`上级组件A`的颜色
 
 ```
 import React from "react";
@@ -304,7 +315,7 @@ export default new EventEmitter();
 
 代码示例`DtoC.js` [点击查看源码](../src/components/DtoC.js)：
 
-实现点击`D组件中的按钮`，修改`C组件的颜色`的功能
+实现：点击`D组件中的按钮`，修改`C组件的颜色`的功能
 
 ```
 import React from "react";
