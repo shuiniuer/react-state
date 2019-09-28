@@ -116,23 +116,19 @@ class B extends React.Component{
 
 > 例如上图的`组件A`要和`组件E`通信，`组件A`先通过props把要传递的数据传递给`组件B`，然后在由`组件B`通过props把`组件A`传递过来的数据传递给`组件E`。<br><br>
 > 这种方式有一个明显的缺点，如果组件结构较深，那么中间的每一层组件都要去传递 props，增加了复杂度，并且这些 props 并不是这些中间组件自己所需要的，会引起混乱。<br>
-> 当组件层次在三层以内可以采用这种方式，当组件嵌套过深时，采用这种方式就需要斟酌了。
 
 - 使用`context`对象
 
 > `context`相当于一个全局容器，我们可以把要通信的内容放在这个容器中，这样一来，不管嵌套有多深，都可以随意取用。<br><br>
-> 如果是`上级组件`向`下级组件`单向通信，可以使用变量；<br>
-> 如果是`下级组件`向`上级组件`通信，同样可以由`上级组件`提供一个回调函数，供`下级组件`调用并回传参数。<br><br>
 > 在使用 context 时，需要注意：<br>
-> 1.上级组件使用静态属性`childContextTypes`声明自己支持`context`，并提供`context`中属性的`PropTypes`<br>
-> 2.上级组件需要提供一个`getChildContext`函数，用以返回一个初始的`context`对象<br>
-> 3.下级组件使用静态属性`contextTypes`声明自己需要使用`context`，并提供其需要使用的`context`属性的 `PropTypes`<br>
->>补充说明：<br>
->>`context`同样可以应在函数组件（无状态组件）上，只需将`context`作为第二个参数传入。<br>
-
-
+> 1.`上级组件`使用`childContextTypes`属性声明自己支持的`context`，并提供`context`中属性的`PropTypes`<br>
+> 2.`上级组件`同时提供一个`getChildContext`函数，用以返回`context`对象<br>
+> 3.`下级组件`使用`contextTypes`属性声明自己需要用到的`context`，并提供`context`中属性的 `PropTypes`<br>
 
 ### 1.`上级组件`向`下级组件`通信
+
+> `上级组件`向`下级组件`通信，可以向下传递`state`
+
 代码示例`AtoD.js` [点击查看源码](../src/components/AtoD.js)：
 
 实现：点击`上级组件A`的按钮，同时修改`下级组件D`的颜色
@@ -174,7 +170,7 @@ export default class A extends React.Component{
 
     render(){
         return (<div style={{border:'solid 5px '+ this.state.color,padding:'10px'}}>
-            <span>组件A</span><button onClick={this.changeColor}>修改A组件state中的color</button>
+            <span>组件A</span><button onClick={this.changeColor}>修改color值</button>
             <B/>
         </div>)
     }
@@ -198,8 +194,12 @@ class D extends React.Component{
         </div>)
     }
 }
+```
 
-/*
+> 补充说明：<br>
+> `context`同样可以应在函数组件（无状态组件）上，只需将`context`作为第二个参数传入。<br>
+
+```
 // 函数组件（无状态组件）使用context
 const D = (props, context)=>{
     return (<div style={{border:'solid 5px '+ context.color,padding:'10px'}}>
@@ -208,10 +208,13 @@ const D = (props, context)=>{
 }
 D.contextTypes = {
     color:PropTypes.string
-}*/
+}
 ```
 
 ### 2.`下级组件`向`上级组件`通信
+
+> `下级组件`向`上级组件`通信，可以由`上级组件`提供一个回调函数，供`下级组件`调用并回传参数。<br>
+
 代码示例`DtoA.js` [点击查看源码](../src/components/DtoA.js)：
 
 实现：点击`下级组件D`的按钮，同时修改`上级组件A`的颜色
