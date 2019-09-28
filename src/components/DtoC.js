@@ -66,6 +66,7 @@ class C extends React.Component{
 
 class D extends React.Component{
     handleClick=(color)=>{
+        // 触发change-c-color事件
         emitter.emit('change-c-color',color)
     }
     render(){
