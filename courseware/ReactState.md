@@ -1,6 +1,6 @@
 # React组件通信
 
-React的基本元素是一个个的组件，组件之间存在各种关联关系。不同的组件之间，经常会发生数据传递、状态共享等行为，我们称之为组件间通信。
+`React`的基本元素是一个个的组件，组件之间存在各种关联关系。不同的组件之间，经常会发生数据传递、状态共享等行为，我们称之为组件间通信。
 
 组件之间的相互关系：
 
@@ -21,7 +21,7 @@ React的基本元素是一个个的组件，组件之间存在各种关联关系
 > `组件D`和`组件G`通信<br>
 > ...
 
-## <span style="color:#900">一、父子组件间通信</span>
+## 一、父子组件间通信
 ### 1. 父组件向子组件传递数据
 > 父组件通过props向子组件传递数据。<br>
 > 父组件的state状态发生变化，子组件与之对应的props也会发生变化。
@@ -110,9 +110,9 @@ class B extends React.Component{
 }
 ```
 
-## <span style="color:#900">二、跨级组件间通信</span>
+## 二、跨级组件间通信
 
-所谓跨级组件通信，就是父组件向子组件的子组件通信，向更深层的子组件通信。跨级组件间通信可以采用下面两种方式：
+所谓跨级组件通信，就是父组件向`子组件的子组件`通信，或者向`更深层的子组件`通信。跨级组件间通信可以采用下面两种方式：
 
 - 层层组件传递`props`（不建议）
 
@@ -280,8 +280,8 @@ class D extends React.Component{
     }
 }
 ```
-## <span style="color:#900">三、非嵌套组件间通信</span>
-非嵌套组件，就是没有任何包含关系的组件，包括兄弟组件以及不在同一个父级中的非兄弟组件。非嵌套组件间通信可以采用下面两种方式：
+## 三、非嵌套组件间通信
+非嵌套组件，就是`没有包含关系的组件`，包括兄弟组件以及不在同一个父级中的非兄弟组件。非嵌套组件间通信可以采用下面两种方式：
 
 - 利用二者共同的上级组件的`context`对象进行通信（不建议）
 
@@ -289,8 +289,8 @@ class D extends React.Component{
 
 - 使用自定义事件实现
 
-> 本教程给大家演示一下如何用自定义事件的方式来实现非嵌套组件间的通信。<br><br>
-> 安装一个 events 包：<br>
+> 本课程给大家演示一下如何用自定义事件的方式来实现非嵌套组件间的通信。<br><br>
+> 安装一个`events`包：<br>
 > 
 ```
 npm install events --save
@@ -301,6 +301,102 @@ npm install events --save
 import { EventEmitter } from "events";
 export default new EventEmitter();
 ```
-> 自定义事件是典型的发布/订阅模式，通过向事件对象上添加监听器和触发事件来实现组件间通信。
+> 自定义事件是典型的`发布/订阅`模式，通过向事件对象上添加`事件监听器`和`触发事件`来实现组件间通信。
 
 代码示例`DtoC.js`：
+
+实现点击`D组件中的按钮`，修改`C组件的颜色`的功能
+
+```
+import React from "react";
+import emitter from "../event"
+
+export default class A extends React.Component{
+    constructor(){
+        super();
+        this.state = {
+            color: 'red'
+        }
+    }
+
+    changeColor=()=>{
+        let color = '';
+        if(this.state.color === 'red'){
+            color = 'green';
+        }else{
+            color = 'red';
+        }
+        this.setState({
+            color: color
+        });
+    }
+
+    render(){
+        return (<div style={{border:'solid 5px '+ this.state.color,padding:'10px',color:'red'}}>
+            <span>组件A</span>
+            <B/>
+            <C/>
+        </div>)
+    }
+}
+
+const B = ()=>{
+    return (<div style={{border:'solid 5px gray',padding:'10px',color:'gray',marginTop:'20px'}}>
+        <span>组件B</span>
+        <D/>
+    </div>)
+}
+
+class C extends React.Component{
+    constructor(){
+        super();
+        this.state = {
+            color: 'blue'
+        }
+    }
+    componentDidMount(){
+        // C组件在组件装载完成以后
+        // 声明一个自定义事件
+        this.eventEmitter = emitter.addListener('change-c-color',(color)=>{
+            this.setState({
+                color
+            });
+        })
+    }
+    // 组件销毁前移除事件监听
+    componentWillUnmount(){
+        emitter.removeListener(this.eventEmitter);
+    }
+    render(){
+        return (<div style={{border:'solid 5px '+this.state.color,padding:'10px',color:+this.state.color,marginTop:'20px'}}>
+            <span>组件C</span>
+        </div>)
+    }
+}
+
+class D extends React.Component{
+    handleClick=(color)=>{
+        emitter.emit('change-c-color',color)
+    }
+    render(){
+        return (<div style={{border:'solid 5px green',padding:'10px',color:'green',marginTop:'20px'}}>
+            <span>组件D </span>
+            <button onClick={()=>{this.handleClick('yellow')}}>把组件C的颜色修改为yellow</button>
+        </div>)
+    }
+}
+```
+### 四、总结
+本节课咱们学习了`React`中组件的几种通信方式，分别是：
+
+- 父组件向子组件通信：使用`props`
+- 子组件向父组件通信：使用`props`传递回调函数
+- 跨级组件间通信：使用`context`对象
+- 非嵌套组件间通信：使用事件订阅
+
+> 事实上，在组件间进行通信时，这些通信方式都可以使用，区别只在于使用相应的通信方式的复杂程度和个人喜好，选择最合适的那一个。<br>
+> 比如：通过事件订阅模式通信不止可以应用在非嵌套组件间，还可以用于跨级组件间，非嵌套组件间通信也可以使用`context`等。关键是选择最合适的方式。
+
+> 当然，自己实现组件间的通信管理起来还是比较困难，因此出现了很多状态管理工具，如`Flux`、`Redux`等，使用这些工具使得组件间的通信更容易追踪和管理。
+
+> 下一节课咱们学习`React`项目中常用的状态管理工具`Redux`
