@@ -30,14 +30,6 @@
  实现：`子组件B`的计数器`count`与`父组件A`的计数器`count`保持一致
 
 ```
-// 父组件A
-// 通过props向子组件B传递了一个number
-// 每过1000ms 父组件A state的number值加1
-// 子组件B props的number会随着父组件A一起变化
-// 父组件A
-// 通过props向子组件B传递了一个count
-// 每过1000ms 父组件A state的count值加1
-// 子组件B props的count会随着父组件A一起变化
 import React from 'react';
 import { setInterval } from 'timers';
 
@@ -58,7 +50,7 @@ export default class A extends React.Component{
 
     render(){
         return (<div>
-            组件A的count值：{this.state.count}
+            组件A state 的count值：{this.state.count}
             <B count={this.state.count}/>
         </div>)
     }
@@ -68,7 +60,7 @@ export default class A extends React.Component{
 class B extends React.Component{
     render(){
         return (<div>
-            组件B的count值：{this.props.count}
+            组件B props 的count值：{this.props.count}
         </div>);
     }
 }
