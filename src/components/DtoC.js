@@ -46,7 +46,7 @@ class C extends React.Component{
         emitter.removeListener(this.eventEmitter);
     }
     render(){
-        return (<div style={{border:'solid 5px '+this.state.color,padding:'10px',color:+this.state.color,marginTop:'20px'}}>
+        return (<div style={{border:'solid 5px '+this.state.color,padding:'10px',color:this.state.color,marginTop:'20px'}}>
             <span>组件C</span>
         </div>)
     }
