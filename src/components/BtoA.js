@@ -1,4 +1,3 @@
-// 点击 子组件B 的按钮修改 父组件A state的 name
 import React from 'react';
 export default class A extends React.Component{
     constructor(){
@@ -14,8 +13,8 @@ export default class A extends React.Component{
     }
     render(){
         return(
-            <div>
-                父组件A中的name：{this.state.name}
+            <div style={{border:'solid 5px green',padding:'10px'}}>
+                父组件A中state的name：{this.state.name}
                 <B changeName={this.changeName}/>
             </div>
         )
@@ -25,7 +24,7 @@ export default class A extends React.Component{
 class B extends React.Component{
     render(){
         return(
-            <div>
+            <div style={{border:'solid 5px gray',padding:'10px'}}>
                 点击 子组件B 的按钮调用 父组件A 传过来的changeName方法：<button onClick={()=>{this.props.changeName('黑马程序员')}}>修改名字</button>
             </div>
         )

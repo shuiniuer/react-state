@@ -17,7 +17,7 @@ export default class A extends React.Component{
     }
 
     render(){
-        return (<div>
+        return (<div style={{border:'solid 5px green',padding:'10px'}}>
             组件A state 的count值：{this.state.count}
             <B count={this.state.count}/>
         </div>)
@@ -27,7 +27,7 @@ export default class A extends React.Component{
 // 子组件B
 class B extends React.Component{
     render(){
-        return (<div>
+        return (<div style={{border:'solid 5px gray',padding:'10px'}}>
             组件B props 的count值：{this.props.count}
         </div>);
     }

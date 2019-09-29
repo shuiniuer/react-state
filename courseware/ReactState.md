@@ -49,7 +49,7 @@ export default class A extends React.Component{
     }
 
     render(){
-        return (<div>
+        return (<div style={{border:'solid 5px green',padding:'10px'}}>
             组件A state 的count值：{this.state.count}
             <B count={this.state.count}/>
         </div>)
@@ -59,7 +59,7 @@ export default class A extends React.Component{
 // 子组件B
 class B extends React.Component{
     render(){
-        return (<div>
+        return (<div style={{border:'solid 5px gray',padding:'10px'}}>
             组件B props 的count值：{this.props.count}
         </div>);
     }
@@ -89,8 +89,8 @@ export default class A extends React.Component{
     }
     render(){
         return(
-            <div>
-                父组件A中的name：{this.state.name}
+            <div style={{border:'solid 5px green',padding:'10px'}}>
+                父组件A中state的name：{this.state.name}
                 <B changeName={this.changeName}/>
             </div>
         )
@@ -100,7 +100,7 @@ export default class A extends React.Component{
 class B extends React.Component{
     render(){
         return(
-            <div>
+            <div style={{border:'solid 5px gray',padding:'10px'}}>
                 点击 子组件B 的按钮调用 父组件A 传过来的changeName方法：<button onClick={()=>{this.props.changeName('黑马程序员')}}>修改名字</button>
             </div>
         )
