@@ -8,7 +8,7 @@ export default class A extends React.Component{
             color: 'red'
         }
     }
-    // 上级组件申明自己支持的 context
+    // 上级组件声明自己支持的 context
     static childContextTypes={
         color: PropTypes.string
     }
