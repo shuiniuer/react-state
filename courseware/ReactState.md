@@ -324,18 +324,6 @@ export default class A extends React.Component{
         }
     }
 
-    changeColor=()=>{
-        let color = '';
-        if(this.state.color === 'red'){
-            color = 'green';
-        }else{
-            color = 'red';
-        }
-        this.setState({
-            color: color
-        });
-    }
-
     render(){
         return (<div style={{border:'solid 5px '+ this.state.color,padding:'10px',color:'red'}}>
             <span>组件A</span>
@@ -362,7 +350,7 @@ class C extends React.Component{
     componentDidMount(){
         // C组件在组件装载完成以后
         // 声明一个自定义事件
-        this.eventEmitter = emitter.addListener('change-c-color',(color)=>{
+        this.eventEmitter = emitter.addListener('changeColor',(color)=>{
             this.setState({
                 color
             });
@@ -381,7 +369,8 @@ class C extends React.Component{
 
 class D extends React.Component{
     handleClick=(color)=>{
-        emitter.emit('change-c-color',color)
+        // 触发changeColor事件
+        emitter.emit('changeColor',color)
     }
     render(){
         return (<div style={{border:'solid 5px green',padding:'10px',color:'green',marginTop:'20px'}}>
